@@ -1,0 +1,36 @@
+@ToDo.Api_HostAddress = https://localhost:44303
+@TodoController = {{ToDo.Api_HostAddress}}/api/todo
+
+
+### Get All Todos   
+GET {{TodoController}}
+Accept: application/json
+
+### Get a Todo by ID
+GET {{TodoController}}/1
+Accept: application/json
+
+### Add a new Todo
+POST {{TodoController}}
+Accept: application/json
+content-type: application/json
+{
+  "id": 0,
+  "title": "string",
+  "isComplete": false
+}
+
+### Update a Todo
+PUT {{TodoController}}/1
+accept: application/json
+content-type: application/json
+{
+  "id": 1,
+  "title": "Completar lista de tareas",
+  "description": "Completar lista de tareas usando un API",
+  "isCompleted": false
+}
+
+### Delete a Todo
+DELETE {{TodoController}}/1
+Accept: application/json
