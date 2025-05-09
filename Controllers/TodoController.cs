@@ -14,6 +14,20 @@ namespace ToDo.Api.Controllers
         public IActionResult Get()
             => Ok(SeedTodoData.Get());
 
+        [HttpGet("{completed:bool}/{status?}")]
+        public IActionResult Get(bool completed, string status = "not-started-yet")
+        {
+            if (string.IsNullOrEmpty(status))
+                return Ok(SeedTodoData.GetByCompleted(completed));
+            
+            var todoItems = SeedTodoData.GetByCompletedStatus(completed, status);
+            
+            if (todoItems == null || todoItems.Count == 0)
+                return Ok();
+            
+            return Ok(todoItems);
+        }
+
         [HttpGet("{id:long}")]
         public IActionResult Get(long id)
         {
@@ -43,9 +57,9 @@ namespace ToDo.Api.Controllers
         {
             if (todoItem == null)
                 return BadRequest("Todo item cannot be null");
-            
+
             var isUpdated = SeedTodoData.Update(id, todoItem);
-            
+
             if (!isUpdated)
                 return NotFound();
 
@@ -54,15 +68,31 @@ namespace ToDo.Api.Controllers
             return Ok(todo);
         }
 
+        [HttpPut("update-status/{id:long}")]
+        public IActionResult Put(long id, [FromBody] UpdateStatus updateStatus)
+        {
+            var isUpdated = SeedTodoData.Update(id, updateStatus.status);
+
+            if (!isUpdated)
+                return NotFound();
+            var todo = SeedTodoData.Get(id);
+            return Ok(todo);
+        }
+
         [HttpDelete("{id:long}")]
         public IActionResult Delete(long id)
         {
             var isDeleted = SeedTodoData.Delete(id);
-            
+
             if (!isDeleted)
                 return NotFound();
-            
+
             return Ok();
         }
+    }
+
+    public class UpdateStatus 
+    {
+        public string status { get; set; }
     }
 }

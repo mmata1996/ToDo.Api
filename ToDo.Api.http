@@ -6,6 +6,15 @@
 GET {{TodoController}}
 Accept: application/json
 
+
+### Get a Todo Completed Only
+GET {{TodoController}}/false
+Accept: application/json
+
+### Get a Todo not Completed Only and stautus not-started-yet
+GET {{TodoController}}/false/not-started-yet
+Accept: application/json
+
 ### Get a Todo by ID
 GET {{TodoController}}/1
 Accept: application/json
@@ -16,8 +25,9 @@ Accept: application/json
 content-type: application/json
 {
   "id": 0,
-  "title": "string",
-  "isComplete": false
+  "title": "Hacer un API de ToDo 2",
+  "description": "Hacer un API de ToDo que haga varias cosas, como por ejemplo crear tareas2",
+  "isCompleted": false
 }
 
 ### Update a Todo
@@ -29,6 +39,14 @@ content-type: application/json
   "title": "Completar lista de tareas",
   "description": "Completar lista de tareas usando un API",
   "isCompleted": false
+}
+
+### Update a todo status
+PUT {{TodoController}}/update-status/1
+accept: application/json
+content-type: application/json
+{
+  "status": "Done-but-no-completed"
 }
 
 ### Delete a Todo
